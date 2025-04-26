@@ -3,6 +3,12 @@
   <component name="AmplicodeJpaIdeaProjectConfig" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository">
     <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
+    <reUseDbSnapshotConnections>
+      <dbConnection id="4102ee27-12e2-42fb-a90c-918871d58051" />
+    </reUseDbSnapshotConnections>
     <option name="newEntityIdStrategy" />
+    <option name="reIgnoreSlowDbConnections">
+      <ignoreDs id="4102ee27-12e2-42fb-a90c-918871d58051" />
+    </option>
   </component>
 </project>

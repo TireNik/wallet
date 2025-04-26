@@ -1,6 +1,7 @@
 package ru.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dto.OperationType;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 @Transactional
+@Slf4j
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
     private final WalletMapper walletMapper;
@@ -30,9 +32,11 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public WalletResponseDto updateBalance(WalletRequestDto requestDto) {
+        log.info("Сообщение: запрос на обновление баланса, кошелек: {}, операция: {}, сумма: {}", requestDto.getWalletId(), requestDto.getOperationType(), requestDto.getAmount());
         Wallet wallet = walletRepository.findByIdForUpdate(requestDto.getWalletId())
                 .orElseThrow(() -> new NotFoundException("Кошелек не найден"));
 
+        log.info("Баланс кошелька до обновления: {}", wallet.getBalance());
         if (requestDto.getOperationType() == OperationType.WITHDRAW) {
             if (wallet.getBalance() < requestDto.getAmount()) {
                 throw new InsufficientFundsException("Не достаточно средств");
@@ -41,7 +45,10 @@ public class WalletServiceImpl implements WalletService {
         } else if (requestDto.getOperationType() == OperationType.DEPOSIT) {
                 wallet.setBalance(wallet.getBalance() + requestDto.getAmount());
         }
-
-        return walletMapper.toWalletResponseDto(wallet);
+        walletRepository.save(wallet);
+        log.info("Сообщение: баланс кошелька успешно обновлен {}", wallet.getBalance());
+        WalletResponseDto walletResponseDto = walletMapper.toWalletResponseDto(wallet);
+        log.info("Баланс кошелька после обновления: {}", walletResponseDto.getBalance());
+        return walletResponseDto;
     }
 }
