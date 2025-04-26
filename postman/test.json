@@ -1,0 +1,166 @@
+{
+  "info": {
+    "_postman_id": "79afd0ce-82cb-496f-8c8e-51072e474830",
+    "name": "Wallet API Tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39388830"
+  },
+  "item": [
+    {
+      "name": "POST /wallet - DEPOSIT success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"walletId\": \"11111111-2222-1111-1111-111111111111\",\n  \"operationType\": \"DEPOSIT\",\n  \"amount\": 1000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/wallet",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "wallet"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST /wallet - WITHDRAW success",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"walletId\": \"11111111-2222-1111-1111-111111111111\",\n  \"operationType\": \"WITHDRAW\",\n  \"amount\": 500\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/wallet",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "wallet"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /wallet/{id} - success",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/wallet/11111111-2222-1111-1111-111111111111",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "wallet",
+            "11111111-2222-1111-1111-111111111111"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST /wallet - Insufficient funds",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"walletId\": \"11111111-2222-1111-1111-111111111111\",\n  \"operationType\": \"WITHDRAW\",\n  \"amount\": 1000000\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/wallet",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "wallet"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET /wallet/{id} - Wallet not found",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/wallet/00000000-0000-0000-0000-000000000000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "v1",
+            "wallet",
+            "00000000-0000-0000-0000-000000000000"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
