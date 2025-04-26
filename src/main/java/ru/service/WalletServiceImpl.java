@@ -32,11 +32,9 @@ public class WalletServiceImpl implements WalletService {
 
     @Override
     public WalletResponseDto updateBalance(WalletRequestDto requestDto) {
-        log.info("Сообщение: запрос на обновление баланса, кошелек: {}, операция: {}, сумма: {}", requestDto.getWalletId(), requestDto.getOperationType(), requestDto.getAmount());
         Wallet wallet = walletRepository.findByIdForUpdate(requestDto.getWalletId())
                 .orElseThrow(() -> new NotFoundException("Кошелек не найден"));
 
-        log.info("Баланс кошелька до обновления: {}", wallet.getBalance());
         if (requestDto.getOperationType() == OperationType.WITHDRAW) {
             if (wallet.getBalance() < requestDto.getAmount()) {
                 throw new InsufficientFundsException("Не достаточно средств");
@@ -45,10 +43,7 @@ public class WalletServiceImpl implements WalletService {
         } else if (requestDto.getOperationType() == OperationType.DEPOSIT) {
                 wallet.setBalance(wallet.getBalance() + requestDto.getAmount());
         }
-        walletRepository.save(wallet);
-        log.info("Сообщение: баланс кошелька успешно обновлен {}", wallet.getBalance());
-        WalletResponseDto walletResponseDto = walletMapper.toWalletResponseDto(wallet);
-        log.info("Баланс кошелька после обновления: {}", walletResponseDto.getBalance());
-        return walletResponseDto;
+
+        return walletMapper.toWalletResponseDto(walletRepository.save(wallet));
     }
 }
